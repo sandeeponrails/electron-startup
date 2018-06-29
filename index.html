@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!-version=-0.0.1</title>
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+    <!-- All of the Node.js APIs are available in this renderer process. -->
+    We are using Node.js <script>document.write(process.versions.node)</script>,
+    Chromium <script>document.write(process.versions.chrome)</script>,
+    and Electron <script>document.write(process.versions.electron)</script>.
+    <!-- <button id="checkUpdate" onclick="test()">Check update</button> -->
+
+    <script>
+        const ipcRenderer = require('electron').ipcRenderer;
+
+        // wait for an updateReady message
+        ipcRenderer.on('updateReady', function(event, text) {
+            // changes the text of the button
+            var container = document.getElementById('ready');
+            container.innerHTML = "new version ready!";
+        })
+    </script>
+    Version: <span id="version">v0.1.0</span>
+    <!-- the button onClick sends a quitAndInstall message to the electron main process -->
+    <button id="ready" onClick="ipcRenderer.send('quitAndInstall')">no updates ready</button>
+  </body>
+
+    <script src="renderer.js"></script>
+
+</html>
